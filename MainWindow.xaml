@@ -1,0 +1,364 @@
+<Window x:Class="BOOKpandoc.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BOOKpandoc"
+        mc:Ignorable="d"
+        Title="假装出书 - BOOKpandoc"
+        Height="600"
+        Width="900"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="CanResizeWithGrip">
+    <!-- 窗口资源（样式等保持不变，为节省篇幅省略，实际使用时保留原有资源） -->
+    <Window.Resources>
+        <!-- 按钮样式 -->
+        <Style x:Key="GrayButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#C5C5D6"/>
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="BorderBrush" Value="#4A4A6A"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#B5B5C6"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+        <!-- 紫色按钮样式 -->
+        <Style x:Key="PurpleButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#7B68EE"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#7B68EE"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="20">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#6A5ACD"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+        <!-- 输入框样式 -->
+        <Style x:Key="InputBoxStyle" TargetType="TextBox">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#4A4A6A"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8">
+                            <ScrollViewer x:Name="PART_ContentHost" 
+                                         Margin="{TemplateBinding Padding}"
+                                         VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- 标签样式 -->
+        <Style x:Key="LabelStyle" TargetType="Label">
+            <Setter Property="Background" Value="#C5C5D6"/>
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="BorderBrush" Value="#4A4A6A"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Label">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- 下拉框样式 -->
+        <Style x:Key="ComboBoxStyle" TargetType="ComboBox">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderBrush" Value="#4A4A6A"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+    </Window.Resources>
+
+    <Border x:Name="MainBorder"
+            Background="#F5F5F7"
+            BorderBrush="#C0C0D0"
+            BorderThickness="2"
+            CornerRadius="15"
+            Margin="5">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- 自定义标题栏 -->
+            <Grid x:Name="TitleBarGrid" Grid.Row="0" Height="35" Margin="10,5" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="假装出书 - BOOKpandoc"
+                          FontSize="16"
+                          FontWeight="SemiBold"
+                          VerticalAlignment="Center"
+                          Margin="10,0"/>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button x:Name="MinimizeButton" Content="−" Width="30" Height="25"
+                           Background="Transparent" BorderThickness="0" FontSize="16" Cursor="Hand"/>
+                    <Button x:Name="MaximizeButton" Content="□" Width="30" Height="25"
+                           Background="Transparent" BorderThickness="0" FontSize="14" Cursor="Hand"/>
+                    <Button x:Name="CloseButton" Content="×" Width="30" Height="25"
+                           Background="Transparent" BorderThickness="0" FontSize="16" Cursor="Hand"/>
+                </StackPanel>
+            </Grid>
+
+            <!-- 书名作者行 -->
+            <Grid Grid.Row="1" Margin="15,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Content="书名：" Style="{StaticResource LabelStyle}" Width="70"/>
+                <TextBox x:Name="TitleTextBox" Grid.Column="1" Style="{StaticResource InputBoxStyle}" Margin="10,0"/>
+
+                <Label Grid.Column="2" Content="作者：" Style="{StaticResource LabelStyle}" Width="70" Margin="15,0,0,0"/>
+                <TextBox x:Name="AuthorTextBox" Grid.Column="3" Style="{StaticResource InputBoxStyle}" Margin="10,0"/>
+            </Grid>
+
+            <!-- 中间区域：下载按钮 + 文件列表 + 操作按钮 -->
+            <Grid Grid.Row="2" Margin="15,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- 左侧下载按钮 -->
+                <Button x:Name="DownloadPandocButton" Content="下载&#x0a;Pandoc"
+                       Style="{StaticResource GrayButtonStyle}"
+                       Width="80" Height="80"
+                       VerticalAlignment="Top"
+                       Click="DownloadPandocButton_Click"/>
+
+                <!-- 中间文件列表 -->
+                <Border Grid.Column="1"
+                       Background="White"
+                       BorderBrush="#C0C0D0"
+                       BorderThickness="2"
+                       CornerRadius="10"
+                       Margin="15,0">
+                    <ListBox x:Name="ChapterListBox"
+                            AllowDrop="True"
+                            PreviewDragOver="ChapterListBox_PreviewDragOver"
+                            Drop="ChapterListBox_Drop"
+                            BorderThickness="0"
+                            Background="Transparent"
+                            Margin="5">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding FileName}" Padding="5"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Border>
+
+                <!-- 右侧操作按钮 -->
+                <StackPanel Grid.Column="2" Orientation="Vertical" Width="100">
+                    <Button x:Name="AddButton" Content="添加文件" Style="{StaticResource PurpleButtonStyle}" Height="40" Margin="0,0,0,8" Click="AddButton_Click"/>
+                    <Button x:Name="RemoveButton" Content="删除选中" Style="{StaticResource PurpleButtonStyle}" Height="40" Margin="0,0,0,8" Click="RemoveButton_Click"/>
+                    <Button x:Name="MoveUpButton" Content="上移" Style="{StaticResource PurpleButtonStyle}" Height="40" Margin="0,0,0,8" Click="MoveUpButton_Click"/>
+                    <Button x:Name="MoveDownButton" Content="下移" Style="{StaticResource PurpleButtonStyle}" Height="40" Click="MoveDownButton_Click"/>
+                </StackPanel>
+            </Grid>
+
+            <!-- 底部设置区域 -->
+            <Grid Grid.Row="3" Margin="15,5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- 常用设置 -->
+                <Grid Grid.Row="0" Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Content="输出格式：" Style="{StaticResource LabelStyle}" Width="100"/>
+                    <ComboBox x:Name="FormatComboBox" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Height="35" Margin="10,0">
+                        <ComboBoxItem Content="PDF"/>
+                        <ComboBoxItem Content="EPUB"/>
+                        <ComboBoxItem Content="DOCX"/>
+                        <ComboBoxItem Content="HTML"/>
+                    </ComboBox>
+
+                    <Label Grid.Column="2" Content="主题：" Style="{StaticResource LabelStyle}" Width="70" Margin="15,0,0,0"/>
+                    <ComboBox x:Name="ThemeComboBox" Grid.Column="3" Style="{StaticResource ComboBoxStyle}" Height="35" Margin="10,0"/>
+
+                    <Button x:Name="RefreshThemesButton" Grid.Column="4" Content="刷新" Style="{StaticResource PurpleButtonStyle}" Width="90" Height="35" Click="RefreshThemesButton_Click"/>
+                </Grid>
+
+                <Grid Grid.Row="1" Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Content="输出目录：" Style="{StaticResource LabelStyle}" Width="100"/>
+                    <TextBox x:Name="OutputDirectoryTextBox" Grid.Column="1"
+                            Style="{StaticResource InputBoxStyle}"
+                            Height="40" Margin="10,0" MinWidth="200"/>
+                    <Button x:Name="BrowseButton" Grid.Column="2" Content="浏览"
+                           Style="{StaticResource PurpleButtonStyle}"
+                           Width="90" Height="35" Margin="10,0" Click="BrowseButton_Click"/>
+                </Grid>
+
+                <Grid Grid.Row="2" Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Content="封面图片：" Style="{StaticResource LabelStyle}" Width="100"/>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="10,0" VerticalAlignment="Center">
+                        <TextBlock x:Name="CoverImagePathTextBlock" Text="未选择" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                        <Button x:Name="SelectCoverImageButton" Content="选择" Style="{StaticResource PurpleButtonStyle}" Width="70" Height="30" Margin="0,0,5,0" Click="SelectCoverImageButton_Click"/>
+                        <Button x:Name="ClearCoverImageButton" Content="清除" Style="{StaticResource GrayButtonStyle}" Width="70" Height="30" Click="ClearCoverImageButton_Click"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- 高级设置折叠面板 -->
+                <Expander Grid.Row="3" Header="高级设置" Margin="0,5,0,0" Background="White" BorderBrush="#C0C0D0" BorderThickness="1" Padding="10">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0" Margin="0,5,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Label Content="Word模板：" Style="{StaticResource LabelStyle}" Width="100"/>
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="10,0" VerticalAlignment="Center">
+                                <TextBlock x:Name="ReferenceDocPathTextBlock" Text="未选择" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                <Button x:Name="SelectReferenceDocButton" Content="选择" Style="{StaticResource PurpleButtonStyle}" Width="70" Height="30" Margin="0,0,5,0" Click="SelectReferenceDocButton_Click"/>
+                                <Button x:Name="ClearReferenceDocButton" Content="清除" Style="{StaticResource GrayButtonStyle}" Width="70" Height="30" Click="ClearReferenceDocButton_Click"/>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Expander>
+            </Grid>
+
+            <!-- 最底部按钮 -->
+            <Grid Grid.Row="4" Margin="15,10,15,15">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="ExampleButton" Content="示例" 
+                       Style="{StaticResource PurpleButtonStyle}"
+                       Width="100" Height="45" Click="ExampleButton_Click"/>
+
+                <Button Content="预览"
+                       Style="{StaticResource PurpleButtonStyle}"
+                       Width="100" Height="45" Margin="10,0,0,0"/>
+
+                <Button x:Name="GenerateButton" Grid.Column="2" Content="导出" 
+                       Style="{StaticResource PurpleButtonStyle}" 
+                       Height="45" Margin="15,0" Click="GenerateButton_Click"/>
+
+                <Button Grid.Column="3" Content="重启" 
+                       Background="#333333"
+                       Foreground="White"
+                       Width="50" Height="50"
+                       FontSize="12">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Ellipse Fill="{TemplateBinding Background}" 
+                                    Stroke="#555555" 
+                                    StrokeThickness="1"/>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#444444"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Grid>
+
+            <!-- 状态栏 -->
+            <TextBlock x:Name="StatusTextBlock" Text="就绪" HorizontalAlignment="Center" Margin="0,0,0,10" Grid.Row="5"/>
+        </Grid>
+    </Border>
+</Window>

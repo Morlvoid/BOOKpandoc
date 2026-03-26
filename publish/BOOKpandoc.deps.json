@@ -1,0 +1,41 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "BOOKpandoc/1.0.0": {
+        "dependencies": {
+          "gong-wpf-dragdrop": "2.2.0"
+        },
+        "runtime": {
+          "BOOKpandoc.dll": {}
+        }
+      },
+      "gong-wpf-dragdrop/2.2.0": {
+        "runtime": {
+          "lib/netcoreapp3.1/GongSolutions.WPF.DragDrop.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.2.0.10"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "BOOKpandoc/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "gong-wpf-dragdrop/2.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-jnqmZwExVmBq3bPxFfbc/zaiaqzX3URfuQMvR1E0+yNqyBBatpmk69ZprduOux4rFPOYZANbU1mAFVKzMt19Mg==",
+      "path": "gong-wpf-dragdrop/2.2.0",
+      "hashPath": "gong-wpf-dragdrop.2.2.0.nupkg.sha512"
+    }
+  }
+}

@@ -1,0 +1,277 @@
+/* 小说标准主题 */
+
+
+/* 全局样式 */
+
+body {
+    font-family: "SimSun", "宋体", serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333333;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 10rem;
+}
+
+
+/* Pandoc生成的HTML结构样式 */
+
+#title-block-header {
+    text-align: center;
+    margin: 40px 0 20px 0;
+    padding: 20px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#title-block-header h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin: 0;
+}
+
+#title-block-header p.author {
+    font-size: 18px;
+    color: #7f8c8d;
+    margin: 10px 0 0 0;
+}
+
+#title-block-header p.date {
+    font-size: 14px;
+    color: #95a5a6;
+    margin: 5px 0 0 0;
+}
+
+
+/* 容器 */
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+/* 标题样式 */
+
+.title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 40px 0 20px 0;
+    color: #2c3e50;
+}
+
+.author {
+    text-align: center;
+    font-size: 18px;
+    color: #7f8c8d;
+    margin-bottom: 40px;
+}
+
+
+/* 章节标题 */
+
+h1 {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 40px 0 20px 0;
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+}
+
+h2 {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 30px 0 15px 0;
+    color: #34495e;
+}
+
+h3 {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 25px 0 12px 0;
+    color: #34495e;
+}
+
+
+/* 段落 */
+
+p {
+    margin: 15px 0;
+    text-align: justify;
+    text-indent: 2em;
+}
+
+
+/* 列表 */
+
+ul,
+ol {
+    margin: 15px 0;
+    padding-left: 2em;
+}
+
+li {
+    margin: 8px 0;
+}
+
+
+/* 版权页 */
+
+.copyright {
+    text-align: center;
+    margin: 60px 0 20px 0;
+    font-size: 14px;
+    color: #7f8c8d;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 20px;
+}
+
+
+/* 目录 */
+
+.toc {
+    margin: 40px 0;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+
+.toc-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: center;
+    color: #2c3e50;
+}
+
+.toc ul {
+    list-style-type: none;
+    padding-left: 20px;
+}
+
+.toc li {
+    margin: 10px 0;
+}
+
+.toc a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+.toc a:hover {
+    text-decoration: underline;
+}
+
+
+/* 引用 */
+
+blockquote {
+    border-left: 4px solid #3498db;
+    padding-left: 15px;
+    margin: 20px 0;
+    font-style: italic;
+    color: #7f8c8d;
+}
+
+
+/* 代码 */
+
+pre {
+    background-color: #f5f5f5;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    margin: 20px 0;
+}
+
+code {
+    font-family: "Courier New", monospace;
+    font-size: 14px;
+    background-color: #f5f5f5;
+    padding: 2px 5px;
+    border-radius: 3px;
+}
+
+
+/* 图片 */
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 20px auto;
+}
+
+
+/* 表格 */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+th,
+td {
+    border: 1px solid #e0e0e0;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f9fafb;
+}
+
+
+/* 链接 */
+
+a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
+/* 页脚 */
+
+.footer {
+    text-align: center;
+    margin-top: 60px;
+    padding: 20px;
+    font-size: 14px;
+    color: #7f8c8d;
+    border-top: 1px solid #e0e0e0;
+}
+
+
+/* 响应式设计 */
+
+@media (max-width: 768px) {
+    body {
+        padding: 5rem;
+    }
+    .container {
+        padding: 10px;
+    }
+    h1 {
+        font-size: 18px;
+    }
+    h2 {
+        font-size: 16px;
+    }
+}
