@@ -28,7 +28,6 @@ Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescrip
 
 [Files]
 Source: "bin\Release\net6.0-windows\win-x64\publish\BOOKpandoc.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\Release\net6.0-windows\win-x64\publish\*.dll"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "bin\Release\net6.0-windows\win-x64\publish\themes\*"; DestDir: "{app}\themes"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "README.md"; DestDir: "{app}"; Flags: ignoreversion
 
