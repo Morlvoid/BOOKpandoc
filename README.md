@@ -1,6 +1,12 @@
 # BOOKpandoc 使用指南
 
-## 功能介绍
+官网：[http://bookpandoc.morlvoid.pro/](http://bookpandoc.morlvoid.pro/)
+<br>
+（抛砖引玉qwq欢迎各路大佬fork或提交PR）
+
+<img src="https://www.blog-image.morlvoid.pro/blog/20260326231514432.png" width="600px" />
+
+## 介绍
 
 BOOKpandoc 是一个用于将 Markdown 文档转换为多种格式电子书的工具，借助于Pandoc的强大功能实现的GUI界面，（理想情况下）支持 PDF、EPUB、DOCX 和 HTML 格式。（现在非理想情况仅支持EPUB和HTML格式）。
 由于作者更擅长前端开发，目前v1.0.0版本仅支持 Windows 平台，且.md转HTML格式最为完善，其他格式是作者盲点，需要等待后续版本更新。目前内置2个默认css模板（novel.css和default.css。default.css为Morlvoid制作的黑白小说主题。）
