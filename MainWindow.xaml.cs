@@ -90,7 +90,11 @@ public partial class MainWindow : System.Windows.Window
         try
         {
             // 检测Pandoc是否已安装
-            if (IsPandocInstalled())
+            _logService.Info("检测Pandoc是否已安装");
+            bool installed = IsPandocInstalled();
+            _logService.Info($"Pandoc安装状态: {installed}");
+            
+            if (installed)
             {
                 _logService.Info("Pandoc已安装");
                 StatusTextBlock.Text = "Pandoc已安装";
@@ -146,6 +150,7 @@ public partial class MainWindow : System.Windows.Window
 
     private bool IsPandocInstalled()
     {
+        // 1. 尝试从 PATH 中执行 pandoc --version
         try
         {
             var process = new System.Diagnostics.Process
@@ -154,22 +159,30 @@ public partial class MainWindow : System.Windows.Window
                 {
                     FileName = "pandoc",
                     Arguments = "--version",
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
                     UseShellExecute = false,
+                    RedirectStandardOutput = true,
                     CreateNoWindow = true
                 }
             };
-            
             process.Start();
-            process.WaitForExit(3000); // 3秒超时
-            
-            return process.ExitCode == 0;
+            process.WaitForExit(3000);
+            if (process.ExitCode == 0)
+                return true;
         }
-        catch
+        catch { /* 忽略异常，继续尝试其他方式 */ }
+
+        // 2. 检查常见的安装路径
+        string[] possiblePaths = {
+            @"C:\Program Files\Pandoc\pandoc.exe",
+            @"C:\Program Files (x86)\Pandoc\pandoc.exe",
+            System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), "Pandoc", "pandoc.exe")
+        };
+        foreach (var path in possiblePaths)
         {
-            return false;
+            if (System.IO.File.Exists(path))
+                return true;
         }
+        return false;
     }
 
     private async System.Threading.Tasks.Task<bool> RunWingetInstallAsync()
