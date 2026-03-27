@@ -1,6 +1,0 @@
-D:\Project\BOOKpandoc\bookpandoc\publish\BOOKpandoc.exe
-D:\Project\BOOKpandoc\bookpandoc\publish\BOOKpandoc.dll
-D:\Project\BOOKpandoc\bookpandoc\publish\BOOKpandoc.deps.json
-D:\Project\BOOKpandoc\bookpandoc\publish\BOOKpandoc.runtimeconfig.json
-D:\Project\BOOKpandoc\bookpandoc\publish\BOOKpandoc.pdb
-D:\Project\BOOKpandoc\bookpandoc\publish\GongSolutions.WPF.DragDrop.dll
