@@ -82,31 +82,123 @@ public partial class MainWindow : System.Windows.Window
         Close();
     }
 
-    private void DownloadPandocButton_Click(object sender, RoutedEventArgs e)
+    private async void DownloadPandocButton_Click(object sender, RoutedEventArgs e)
     {
-        _logService.Info("开始下载Pandoc");
-        StatusTextBlock.Text = "正在打开Pandoc下载页面...";
+        _logService.Info("开始检测并安装Pandoc");
+        StatusTextBlock.Text = "正在检测Pandoc...";
         
         try
         {
-            ProcessHelper.OpenUrl("https://pandoc.org/installing.html");
-            _logService.Info("已打开Pandoc下载页面");
-            StatusTextBlock.Text = "已打开Pandoc下载页面";
-            System.Windows.MessageBox.Show(
-                "已为您打开Pandoc官方下载页面。\n\n请按照页面提示下载并安装Pandoc。\n\n安装完成后，您就可以开始使用本软件生成电子书了。", 
-                "下载Pandoc", 
-                MessageBoxButton.OK, 
-                MessageBoxImage.Information);
+            // 检测Pandoc是否已安装
+            if (IsPandocInstalled())
+            {
+                _logService.Info("Pandoc已安装");
+                StatusTextBlock.Text = "Pandoc已安装";
+                System.Windows.MessageBox.Show(
+                    "Pandoc已经安装好了！\n\n您可以开始使用本软件生成电子书了。", 
+                    "Pandoc已安装", 
+                    MessageBoxButton.OK, 
+                    MessageBoxImage.Information);
+                return;
+            }
+            
+            // 尝试使用winget安装Pandoc
+            StatusTextBlock.Text = "正在使用winget安装Pandoc...";
+            _logService.Info("开始使用winget安装Pandoc");
+            
+            var result = await RunWingetInstallAsync();
+            
+            if (result)
+            {
+                _logService.Info("Pandoc安装成功");
+                StatusTextBlock.Text = "Pandoc安装成功";
+                System.Windows.MessageBox.Show(
+                    "Pandoc安装成功！\n\n您现在可以开始使用本软件生成电子书了。", 
+                    "安装成功", 
+                    MessageBoxButton.OK, 
+                    MessageBoxImage.Information);
+            }
+            else
+            {
+                _logService.Info("winget安装失败，打开下载页面");
+                StatusTextBlock.Text = "winget安装失败，打开下载页面";
+                
+                // 尝试打开官方下载页面
+                ProcessHelper.OpenUrl("https://pandoc.org/installing.html");
+                System.Windows.MessageBox.Show(
+                    "winget安装失败，已为您打开Pandoc官方下载页面。\n\n请按照页面提示手动下载并安装Pandoc。\n\n安装完成后，您就可以开始使用本软件生成电子书了。", 
+                    "安装失败", 
+                    MessageBoxButton.OK, 
+                    MessageBoxImage.Information);
+            }
         }
         catch (Exception ex)
         {
-            _logService.Error("打开下载页面失败", ex);
-            StatusTextBlock.Text = "打开下载页面失败";
+            _logService.Error("安装Pandoc失败", ex);
+            StatusTextBlock.Text = "安装Pandoc失败";
             System.Windows.MessageBox.Show(
-                $"无法打开Pandoc下载页面。\n\n您可以手动访问以下网址：\nhttps://pandoc.org/installing.html\n\n错误详情：{ex.Message}", 
-                "打开页面失败", 
+                $"安装Pandoc时发生错误。\n\n您可以手动访问以下网址下载：\nhttps://pandoc.org/installing.html\n\n错误详情：{ex.Message}", 
+                "安装失败", 
                 MessageBoxButton.OK, 
                 MessageBoxImage.Error);
+        }
+    }
+
+    private bool IsPandocInstalled()
+    {
+        try
+        {
+            var process = new System.Diagnostics.Process
+            {
+                StartInfo = new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = "pandoc",
+                    Arguments = "--version",
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                }
+            };
+            
+            process.Start();
+            process.WaitForExit(3000); // 3秒超时
+            
+            return process.ExitCode == 0;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    private async System.Threading.Tasks.Task<bool> RunWingetInstallAsync()
+    {
+        try
+        {
+            var process = new System.Diagnostics.Process
+            {
+                StartInfo = new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = "winget",
+                    Arguments = "install --source winget --exact --id JohnMacFarlane.Pandoc",
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                }
+            };
+            
+            process.Start();
+            
+            // 异步等待进程完成
+            await System.Threading.Tasks.Task.Run(() => process.WaitForExit());
+            
+            return process.ExitCode == 0;
+        }
+        catch
+        {
+            return false;
         }
     }
 
