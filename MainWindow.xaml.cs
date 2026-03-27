@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Microsoft.Win32;
 using BOOKpandoc.Models;
 using BOOKpandoc.Services;
 using BOOKpandoc.Helpers;
@@ -167,21 +168,56 @@ public partial class MainWindow : System.Windows.Window
             process.Start();
             process.WaitForExit(3000);
             if (process.ExitCode == 0)
+            {
+                _logService.Info("检测到 Pandoc (通过 PATH)");
                 return true;
+            }
         }
-        catch { /* 忽略异常，继续尝试其他方式 */ }
+        catch (Exception ex)
+        {
+            _logService.Info($"PATH检测异常: {ex.Message}");
+        }
 
-        // 2. 检查常见的安装路径
-        string[] possiblePaths = {
-            @"C:\Program Files\Pandoc\pandoc.exe",
-            @"C:\Program Files (x86)\Pandoc\pandoc.exe",
-            System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), "Pandoc", "pandoc.exe")
+        // 2. 检查常见安装路径
+        string[] possiblePaths = { 
+            @"C:\Program Files\Pandoc\pandoc.exe", 
+            @"C:\Program Files (x86)\Pandoc\pandoc.exe", 
+            System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), "Pandoc", "pandoc.exe"), 
+            System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ProgramFiles), "Pandoc", "pandoc.exe"), 
+            System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ProgramFilesX86), "Pandoc", "pandoc.exe") 
         };
         foreach (var path in possiblePaths)
         {
             if (System.IO.File.Exists(path))
+            {
+                _logService.Info($"检测到 Pandoc (路径: {path})");
                 return true;
+            }
         }
+
+        // 3. 尝试从注册表读取安装路径
+        try
+        {
+            // 打开注册表键：HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\pandoc.exe
+            using (var key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\pandoc.exe"))
+            {
+                if (key != null)
+                {
+                    var path = key.GetValue("") as string;
+                    if (!string.IsNullOrEmpty(path) && System.IO.File.Exists(path))
+                    {
+                        _logService.Info($"检测到 Pandoc (注册表: {path})");
+                        return true;
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logService.Info($"注册表检测异常: {ex.Message}");
+        }
+
+        _logService.Info("未检测到 Pandoc");
         return false;
     }
 

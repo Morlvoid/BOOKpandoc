@@ -159,11 +159,14 @@
                           Margin="10,0"/>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
                     <Button x:Name="MinimizeButton" Content="−" Width="30" Height="25"
-                           Background="Transparent" BorderThickness="0" FontSize="16" Cursor="Hand"/>
+                           Background="Transparent" BorderThickness="0" FontSize="16" Cursor="Hand"
+                           Click="MinimizeButton_Click"/>
                     <Button x:Name="MaximizeButton" Content="□" Width="30" Height="25"
-                           Background="Transparent" BorderThickness="0" FontSize="14" Cursor="Hand"/>
+                           Background="Transparent" BorderThickness="0" FontSize="14" Cursor="Hand"
+                           Click="MaximizeButton_Click"/>
                     <Button x:Name="CloseButton" Content="×" Width="30" Height="25"
-                           Background="Transparent" BorderThickness="0" FontSize="16" Cursor="Hand"/>
+                           Background="Transparent" BorderThickness="0" FontSize="16" Cursor="Hand"
+                           Click="CloseButton_Click"/>
                 </StackPanel>
             </Grid>
 

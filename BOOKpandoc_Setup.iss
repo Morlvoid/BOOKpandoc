@@ -1,6 +1,6 @@
 [Setup]
 AppName=BOOKpandoc
-AppVersion=1.0.0
+AppVersion=1.0.1
 AppPublisher=Morlvoid
 AppPublisherURL=https://github.com/Morlvoid/BOOKpandoc
 AppSupportURL=https://github.com/Morlvoid/BOOKpandoc/issues
